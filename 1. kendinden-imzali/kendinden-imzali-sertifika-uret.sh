@@ -39,6 +39,5 @@ openssl req -x509                                    \
         -keyout ./cikti/sunucu_sertifikasi.key               \
         -newkey rsa:2048                             \
         -nodes -sha256                               \
-        -subj /CN=bilgisayaradi                      \
         -extensions v3_req                           \
         -config ./sunucu-sertifika-bilgileri.cnf

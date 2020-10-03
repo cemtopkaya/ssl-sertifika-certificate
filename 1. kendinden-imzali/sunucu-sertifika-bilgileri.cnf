@@ -12,9 +12,22 @@ stateOrProvinceName = Istanbul
 stateOrProvinceName_default = Istanbul
 localityName = Tuzla
 localityName_default = Tuzla
-organizationalUnitName = Bilgi Islem Bolumu
-organizationalUnitName_default = Bilgi Islem Bolumu
-commonName = *.bilgisayaradi
+
+# ister uzun adiyla (organizationName) ister kisa adiyla (O) diyerek girebiliriz
+O          = Sertifika Isteyen Sirketin Adi
+O_default  = Yeni E-Ticaret Sitemiz A.S.
+
+# organizationalUnitName === OU 
+# Ancak asagidaki sekilde bir kisa bir uzun adiyla veri giremeyiz
+# 
+#   organizationName = Sertifika Isteyen Sirketin Adi
+#   O_default        = Yeni E-Ticaret Sitemiz A.S.
+# 
+organizationalUnitName = Sirket Icinde Sertifika Isteyen Bolumun Adi
+organizationalUnitName_default = E-Ticaret Gelistirme Bolumu
+
+commonName = Sertifikanin gecerli oldugu alan adi
+commonName_default = *.hersey1lira.com
 commonName_max = 64
  
 [ v3_req ]
@@ -25,9 +38,9 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 subjectAltName = @alt_names
  
 [alt_names]
-DNS.1 = *.bilgisayaradi
-DNS.2 = *.nrf.bilgisayaradi
-DNS.3 = bilgisayaradi
+DNS.1 = *.hersey1lira.com
+DNS.2 = forum.hersey1lira.com
+DNS.3 = localhost
 IP.1 = 127.0.0.1
 IP.2 = 192.168.56.1
 

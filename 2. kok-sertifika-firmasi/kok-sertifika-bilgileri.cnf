@@ -45,12 +45,12 @@ C          = Ulke (2 Harf)
 C_default  = TR
 L          = Sehir
 L_default  = ISTANBUL
-O          = Organizasyon ismi
-O_default  = Sertifika Firmasi A.S.
-OU         = Organizasyon Birimi
-OU_default = Sertifika Ureten Bolumun Adi Gelir Buraya
-CN         = Ortak Ad
-CN_default = Ayirt edici Firma Adi Olacak (CA)
+O          = Sertifika Ureten Firma Adi Buraya Yazilir
+O_default  = En Kaliteli Sertifika Firmasi Ltd. Sti.
+OU         = Sertifika ureten firmanin sertifikayla ilgili Bolumunun Adi Buraya
+OU_default = Sertifika Uretim Departumani
+CN         = Ayirt edici Firma Adi Olacak (CA)
+CN_default = VeriSign'dan DA Iyi Root CA Firmasiyiz
 commonName_max = 64
 
 #################################################################### signing_policy
@@ -68,7 +68,7 @@ commonName = optional
 [ v3_req ]
 # Extensions to add to a certificate request
 subjectKeyIdentifier = hash
-basicConstraints     = CA:FALSE
+basicConstraints     = CA:TRUE
 keyUsage             = digitalSignature, keyEncipherment
 nsComment            = "OpenSSL Generated Certificate"
 

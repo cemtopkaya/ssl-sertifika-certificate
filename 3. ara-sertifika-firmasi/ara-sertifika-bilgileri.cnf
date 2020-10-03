@@ -1,0 +1,86 @@
+#################################################################### ca
+[ ca ]
+default_ca    = CA_default      # The default ca section
+
+[ CA_default ]
+dir               = .
+certs             = $dir/certs
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/newcerts      # Zorunlu. -outdir komut satırı seçeneğiyle aynı. Yeni sertifikaların yerleştirileceği dizini belirtir. 
+database          = $dir/index.txt     # Zorunlu. Kullanılacak metin tabanlı veritabanı dosyası. Bu dosya başlangıçta boş olsa da mevcut olmalıdır.
+serial            = $dir/serial
+
+private_key      = $dir/private/intermediate.key
+certificate      = $dir/certs/intermediate.crt
+
+default_days     = 1000         # Sertifika geçerlilik süresi (gün sayısı)
+default_crl_days = 30           # İptal listesinin hangi sıklıkla güncellendiğidir. Bu değere göre sertifika içindeki crlDistributionPoints özelliğindeki adresi kontrol ederek, iptal listesini çeker ve sertifika seri numarasının iptal edilip edilmediğini kontrol ederek geçerlilik sağlar.
+default_md       = sha256       # Özet algoritmasının varsayılan değeridir. -md komut satırı parametresiyle ezilebilir.
+preserve         = no           # tüm sertifikalarınızın aynı DN sırasına sahip olmasını istiyorsanız, "no" değeri alacak. Openssl, CSR'da tanımlı DN alanlarını tutarlı hale getirmek için yeniden sıralar. Ancak, bu özelliklerin sırasını kullanıcının belirlemesine izin vermek istiyorsanız, bunu "yes" olarak ayarlayın.
+
+x509_extensions = ca_extensions # x509v3 Uzantılar eklenebilecek bir formattır ve bu uzantıları ayarladığımız ayar bölümünün adını yazarız
+
+email_in_dn     = no            # yes Olursa sertifikaya eposta adresini ekler, no olursa DN'deki e-postayı birleştirmez
+copy_extensions = copy          # SAN ayarlarını CSR'den sertifikaya kopyalamak için gereklidir (openssl ca komutu için geçerlidir)
+
+#################################################################### req
+[req]
+# openssl req komutunu kullandığımızda bu bölümü okuyacak.
+# Aşağıdaki komutu çalıştırdığında gizli anahtarı çıkarırken adını rootCA.key seçecek 
+#   $ openssl req -config openssl.cnf -newkey rsa:2048 -sha256 -out csr/rootCA.csr -outform PEM
+# Eğer -newkey rsa:2048 yerine -newkey rsa yazarsak gizli anahtarı default_bits değeriyle çıkaracak
+# 
+default_bits       = 4096
+default_keyfile    = private/rootCA.key
+distinguished_name = ca_distinguished_name
+x509_extensions    = ca_extensions
+string_mask        = utf8only
+req_extensions     = v3_req
+# encrypt_key        = no         # Gizli anahtarı şifreyle korur (-no)
+
+#################################################################### ca_distinguished_name
+
+[ca_distinguished_name]
+C          = Ulke (2 Harf)
+C_default  = TR
+L          = Sehir
+L_default  = KARS
+O          = Ara Sertifika Ureten Firma Adi Buraya Yazilir
+O_default  = Kaliteli Sertifika Ureten Bayi (Ara CA) Firmasi Ltd. Sti.
+OU         = Sertifika Uretici Biriminin Adi Buraya
+OU_default = Sertifika Uretici Birimi (Toplam 5 kisi calisiyor :)
+CN         = Ayirt edici Firma Adi Olacak (CA)
+CN_default = Spor Toto Bayisi Gibi ARA CA Firmasiyiz
+commonName_max = 64
+
+#################################################################### signing_policy
+
+[ signing_policy ]
+organizationName = supplied
+commonName = optional
+
+#################################################################### v3_req
+
+# `openssl x509 -req` komutunuz `-extfile` veya `-extensions` seçeneklerini kullanmadığında varsayilan
+# `openssl.cnf` dosyanızın "extension" değişkeninden okunur, kendinden imzalı sertifikanın uzantı bilgileri.
+# Bu ayar dosyasinda belirtildigi kisim komut satirinda:
+# $ openssl x509 -req -in test.csr -signkey test.key -out test.pem -extensions v3_ca
+[ v3_req ]
+# Extensions to add to a certificate request
+subjectKeyIdentifier = hash
+basicConstraints     = CA:TRUE
+keyUsage             = digitalSignature, keyEncipherment
+nsComment            = "OpenSSL Generated Certificate"
+
+#################################################################### ca_extensions
+
+# Varsayilan `openssl.cnf` icindeki `[ v3_ca ]` bolumu yerine asagidaki kisim kullanilacak
+[ ca_extensions ]
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always, issuer
+# https://www.openssl.org/docs/man1.0.2/man5/x509v3_config.html
+# Bu, bir sertifikanın CA sertifikası olup olmadığını gösteren çok değerli bir uzantıdır.
+# Pathlen parametresi, bir zincirde bunun altında görünebilecek maksimum CA sayısını gösterir. 
+# Bu nedenle, sıfır yollu bir CA'nız varsa, bu yalnızca son kullanıcı sertifikalarını imzalamak için kullanılabilir, başka CA'lar için kullanılamaz.
+basicConstraints       = critical, CA:true, pathlen:0
+keyUsage               = keyCertSign, cRLSign
