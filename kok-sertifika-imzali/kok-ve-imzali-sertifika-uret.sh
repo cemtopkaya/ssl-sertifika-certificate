@@ -1,4 +1,7 @@
-rm *.crt *.key *.csr
+#!/bin/sh
+
+# Daha onceden olusturulmus sertifika kalintilarini temizler
+rm ./cikti/*.*
 
 # Kok Sertifikasi Uretimi
 #
@@ -10,35 +13,35 @@ rm *.crt *.key *.csr
 # private key'in kaydedilecegi dosya yolu ve adi icin `-keyout ./rootCA.key`
 # public key'in kaydedilecegi dosya yolu ve adi icin `-out ./rootCA.crt`
 # 
-openssl req -x509 \
-  -new -nodes \
-  -days 3650 \
-  -sha256 \
+openssl req -x509                     \
+  -new -nodes                         \
+  -days 3650                          \
+  -sha256                             \
+  -newkey rsa:2048                    \
   -config kok-sertifika-bilgileri.cnf \
-  -newkey rsa:2048 \
-  -keyout ./rootCA.key \
-  -out ./rootCA.crt
+  -keyout ./cikti/rootCA.key          \
+  -out ./cikti/rootCA.crt
 
 
 # Sunucu sertifikasinin gizli anahtarini olusturuyoruz
-openssl genrsa -out ./sunucu-gizli.key 2048
+openssl genrsa -out ./cikti/sunucu-gizli.key 2048
 
 # CSR Dosyasina gizli anahtarimizi ve serfifika bilgilerini yazip 
 # sertifika otoritesine acik anahtari olusturmasi icin verecegiz
-openssl req \
-  -new -key ./sunucu-gizli.key \
-  -out ./sunucu-istek.csr \
+openssl req                           \
+  -new -key ./cikti/sunucu-gizli.key  \
+  -out ./cikti/sunucu-istek.csr       \
   -config ../kendinden-imzali/sunucu-sertifika-bilgileri.cnf 
 
 # CA tarafindan imzali acik anahtarimiz olusturulacak
-openssl x509 \
-  -req \
-  -days 3650 \
-  -sha256 \
-  -CA ./rootCA.crt \
-  -CAkey ./rootCA.key     \
-  -CAcreateserial         \
-  -in ./sunucu-istek.csr  \
-  -extensions v3_req      \
+openssl x509                    \
+  -req                          \
+  -days 3650                    \
+  -sha256                       \
+  -CA ./cikti/rootCA.crt        \
+  -CAkey ./cikti/rootCA.key     \
+  -in ./cikti/sunucu-istek.csr  \
+  -CAcreateserial               \
   -extfile ./kok-sertifika-bilgileri.cnf \
-  -out ./sunucu-acik.crt
+  -extensions v3_req            \
+  -out ./cikti/sunucu-acik.crt
