@@ -1,4 +1,8 @@
 #!/bin/sh
+
+# Daha onceden olusturulmus sertifika kalintilarini temizler
+rm ./cikti/*.*
+
 # Iletisimi Sifreli Yapmanin Yollari
 #
 # Gizli anahtarlı şifreleme ya da simetrik şifreleme, kriptografik yöntemlerden, 
@@ -31,8 +35,8 @@
 #   > Acik anahtar uretecegimiz icin "req -x509" anahtari kullanilir 
 # 
 openssl req -x509                                    \
-        -out sunucu_sertifikasi.crt                  \
-        -keyout sunucu_sertifikasi.key               \
+        -out ./cikti/sunucu_sertifikasi.crt                  \
+        -keyout ./cikti/sunucu_sertifikasi.key               \
         -newkey rsa:2048                             \
         -nodes -sha256                               \
         -subj /CN=bilgisayaradi                      \
