@@ -1,0 +1,41 @@
+[ca]
+x509_extensions = ca_extensions # x509v3 Uzantılar eklenebilecek bir formattır ve bu uzantıları ayarladığımız ayar bölümünün adını yazarız
+
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+ 
+[req_distinguished_name]
+countryName = TR
+countryName_default = TR
+stateOrProvinceName = Istanbul
+stateOrProvinceName_default = Istanbul
+localityName = Tuzla
+localityName_default = Tuzla
+organizationalUnitName = Bilgi Islem Bolumu
+organizationalUnitName_default = Bilgi Islem Bolumu
+commonName = *.bilgisayaradi
+commonName_max = 64
+ 
+[ v3_req ]
+# Extensions to add to a certificate request
+# Sart degil ama dogru tanimlamak icin kendinden imzali olacagi ve sunucu tarafinda kullanilacagi icin CA:FALSE
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+ 
+[alt_names]
+DNS.1 = *.bilgisayaradi
+DNS.2 = *.nrf.bilgisayaradi
+DNS.3 = bilgisayaradi
+IP.1 = 127.0.0.1
+IP.2 = 192.168.56.1
+
+####################################################################
+[ ca_extensions ]
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always, issuer
+# https://www.openssl.org/docs/man1.0.2/man5/x509v3_config.html
+# Bu, bir sertifikanın CA sertifikası olup olmadığını gösteren çok değerli bir uzantıdır.
+basicConstraints       = critical, CA:false
+keyUsage               = keyCertSign, cRLSign
