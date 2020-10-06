@@ -221,6 +221,14 @@ alice.p12 Dosyasindaki icerigi alice.jks dosyasina aktaralim:
 $ keytool -v -importkeystore -srckeystore alice.p12 -srcstoretype PKCS12 -destkeystore truststore.jks -deststoretype JKS
 ```
 
+#### JKS Dosyasına Bir Sertifika (örn. Kök Sertifikamızı) Ekleyelim
+JKS nin bir dizin sertifika dosyalarımızın (public ve private) dosya olduğunu düşünürseniz, JKS dizinine dosya kopyalamak gibi işlem yapmış olacağız.
+Farkı ise ekstra bir takma ad kullanabilmemiz. Alias sayesinde JKS içeriğine baktığımızda ekli dosyanın ne olduğuna dair bir fikir sahibi olabiliriz.
+
+```
+$ keytool -keystore truststore.jks -alias koksertifika -import -file rootCa.crt
+```
+
 ```
 -importkeystore [-v]
              [-srckeystore ]      [-destkeystore ]
