@@ -12,25 +12,25 @@ Bu anahtarlardan bir tanesiyle şifreleme yapılırken diğeriyle de şifre çö
 Bu iki anahtar çifti matematiksel olarak birbirleriyle bağlantılıdır.
 https://www.sciencedirect.com/topics/computer-science/public-key-encryption
  
-Once SSL sonra ustune TLS gelistirildi. Guvenli haberlesme icin anahtarlarin degisimini TLS ustunden sagliyoruz.
-Asimetrik sifreleme icin gizli ve acik anahtar ciftini olusturacagiz.
+Önce SSL sonra üstüne TLS geliştirildi. Güvenli haberleşme için anahtarlarin değişimini TLS üstünden sagliyoruz.
+Asimetrik şifreleme için gizli ve açık anahtar çiftini oluşturacağız.
  
  ##### Gizli Anahtar (Private Key)
-   - Sadece sunucunun bildigi ve kimseyle paylasilmayacak dosyadir
+   - Sadece sunucunun bildigi ve kimseyle paylaşılmayacak dosyadır
    - `-----BEGIN PRIVATE KEY-----` satiriyla baslayan dosyadir
    - `.pem` veya `.crt` uzantili olabilir 
-   - Sadece key dosyasi uretmek icin `genrsa` anahtari kullanilir 
-   - 2048 bit uzunluklu sifreleme kullanilacak
+   - Sadece key dosyasi uretmek icin `genrsa` anahtari kullanılır 
+   - 2048 bit uzunluklu şifreleme kullanılacak
 
 ```shell
 $ openssl genrsa -out gizli_anahtar.key 2048
 ``` 
  
  ##### Acik Anahtar (Public Key) 
-   - Sifreli bir sekilde konusmak istedigimiz istemcilerle paylasiyoruz
-   - `-----BEGIN CERTIFICATE-----` diye baslayan dosyadir
+   - Şifreli bir şekilde konuşmak istediğimiz istemcilerle paylaşıyoruz
+   - `-----BEGIN CERTIFICATE-----` diye başlayan dosyadır
    - `.pem` veya `.crt` uzantili olabilir 
-   - Acik anahtar uretecegimiz icin `req -x509` anahtari kullanilir 
+   - Açık anahtar üreteceğimiz için `req -x509` anahtarı kullanılır 
 
 #### Dosya Uzantilari ve Tanimlari
 Apache ile çalışacak normal bir PEM dosyasını bir PFX (PKCS # 12) dosyasına dönüştürebilir ve Tomcat veya IIS ile kullanabilirsiniz.
