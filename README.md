@@ -1,4 +1,4 @@
-# Iletisimi Sifreli Yapmanin Yollari
+# İletişimi Şifreli Yapmanın Yolları
 
 ## Gizli anahtarlı şifreleme (simetrik şifreleme)
 Gizli anahtarlı şifreleme ya da simetrik şifreleme, kriptografik yöntemlerden, 
@@ -12,14 +12,14 @@ Bu anahtarlardan bir tanesiyle şifreleme yapılırken diğeriyle de şifre çö
 Bu iki anahtar çifti matematiksel olarak birbirleriyle bağlantılıdır.
 https://www.sciencedirect.com/topics/computer-science/public-key-encryption
  
-Önce SSL sonra üstüne TLS geliştirildi. Güvenli haberleşme için anahtarlarin değişimini TLS üstünden sagliyoruz.
+Önce SSL sonra üstüne TLS geliştirildi. Güvenli haberleşme için anahtarların değişimini TLS üstünden sağlıyoruz.
 Asimetrik şifreleme için gizli ve açık anahtar çiftini oluşturacağız.
  
  ##### Gizli Anahtar (Private Key)
-   - Sadece sunucunun bildigi ve kimseyle paylaşılmayacak dosyadır
-   - `-----BEGIN PRIVATE KEY-----` satiriyla baslayan dosyadir
+   - Sadece sunucunun bildiği ve kimseyle paylaşılmayacak dosyadır
+   - `-----BEGIN PRIVATE KEY-----` satırıyla başlayan dosyadır
    - `.pem` veya `.crt` uzantili olabilir 
-   - Sadece key dosyasi uretmek icin `genrsa` anahtari kullanılır 
+   - Sadece key dosyası üretmek için `genrsa` anahtarı kullanılır 
    - 2048 bit uzunluklu şifreleme kullanılacak
 
 ```shell
@@ -38,8 +38,8 @@ Apache ile çalışacak normal bir PEM dosyasını bir PFX (PKCS # 12) dosyasın
 # Komutlar
 ### Dosyalari Kontrol Etmek
 ##### Gizli ve Acik Anahtarlari & CSR Dosyalari Eslesiyor mu?
-Gizli ve acik anahtarlarin modulus kisimlarinin MD5 ile hash kodlari ayniysa CRT ve KEY dosyalari birbiriyle bagli ve sorunsuz calisacaklar demektir. Asagidaki ciktiya gore hem CRT hem KEY dosyalarinin modulus kisimlarinin HASH kodlari ayni degerde **c35ef1503739cee6f991090f8c908d21**
-Ayni sekilde CSR dosyasini da bu eslesmenin icine dahil edebiliriz.
+Gizli ve acik anahtarlarin modulus kisimlarinin MD5 ile hash kodlari aynıysa CRT ve KEY dosyalari birbiriyle bağlı ve sorunsuz çalışacaklar demektir. Aşağıdaki çıktıya göre hem CRT hem KEY dosyalarının modulus kısımlarının HASH kodları aynı değerde **c35ef1503739cee6f991090f8c908d21**
+Ayni sekilde CSR dosyasını da bu eşleşmenin içine dahil edebiliriz.
 
 ![Modulus kismini gormek icin tiklayiniz](https://user-images.githubusercontent.com/261946/94993001-89333580-0596-11eb-9af1-ad89fd69be43.png)
 
